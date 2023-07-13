@@ -34,7 +34,6 @@ bot.use(async (ctx, next) => {
     const user = await User.findOne({ telegram_id: ctx.from.id })
     //almacenar los datos en la db
     if (!user) await User.create(ctx.from)
-    console.log(user)
     next()
 })
 //para poder envíar un mesaje a cada persona que tenga guardada en la bd
@@ -43,8 +42,18 @@ bot.command('chat', async ctx => {
     //esto devuelve el numero de usuarios que tengo almacenado en la base de datos
     const count = await User.countDocuments()
     const randomNum = Math.floor(Math.random() * count)
-    console.log(count)
+    const user = await User.findOne().skip(randomNum);
+
+    bot.telegram.sendMessage(user.telegram_id, mensaje);
+    ctx.reply(`Mensaje enviado a ${user.first_name}`);
 })
+
+// bot.command('make', async ctx => {
+//     const response = await axios.post('https://hook.eu1.make.com/x8durtb32rv6ejhndaiienfzhc6omc6y', {
+//         telegram_id: ctx.from.id, first_name: ctx.from.first_name
+//     });
+//     console.log(response);
+// });
 
 //comados para hablar con el bto, primer parametro el nombre de comando y luego una funcion
 bot.command('test', async (ctx) => {
