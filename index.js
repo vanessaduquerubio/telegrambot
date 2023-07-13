@@ -49,6 +49,7 @@ bot.command('chat', async ctx => {
 //comados para hablar con el bto, primer parametro el nombre de comando y luego una funcion
 bot.command('test', async (ctx) => {
     await ctx.reply(`Hola ${ctx.from.first_name}`)
+    await ctx.reply('prueba de cambio')
     await ctx.replyWithDice()
 
 })
